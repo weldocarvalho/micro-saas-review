@@ -1,0 +1,50 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: derme-plan-rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"      # AMQP port
+      - "15672:15672"    # Management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    networks:
+      - derme-plan
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: derme-plan-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: derme_user
+      POSTGRES_PASSWORD: derme_password
+      POSTGRES_DB: derme_plan
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U derme_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - derme-plan
+
+volumes:
+  rabbitmq_data:
+  postgres_data:
+
+networks:
+  derme-plan:
+    driver: bridge

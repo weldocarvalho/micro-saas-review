@@ -4,24 +4,24 @@ using DermePlan.Worker.Application.Models;
 
 namespace DermePlan.Worker.Application.Consumers;
 
-public class SkinAnalyseConsumer : IConsumer<SkinWizardSubmittedEvent>
+public class SkinAnalysisConsumer : IConsumer<InitiateSkinAnalysisEvent>
 {
-    private readonly ILogger<SkinAnalyseConsumer> _logger;
+    private readonly ILogger<SkinAnalysisConsumer> _logger;
 
-    public SkinAnalyseConsumer(ILogger<SkinAnalyseConsumer> logger)
+    public SkinAnalysisConsumer(ILogger<SkinAnalysisConsumer> logger)
     {
         _logger = logger;
     }
 
-    public async Task Consume(ConsumeContext<SkinWizardSubmittedEvent> context)
+    public async Task Consume(ConsumeContext<InitiateSkinAnalysisEvent> context)
     {
         var message = context.Message;
 
         _logger.LogInformation(
             "Recebido evento de análise de pele. CorrelationId: {CorrelationId}, UserId: {UserId}",
-            message.CorrelationId, message.UserId);
+            message.CorrelationId, message.PatientId);
 
-            Console.WriteLine($"Processando análise de pele para UserId: {message.UserId}, SkinType: {message.SkinType}, SkinConcerns: {message.SkinConcerns}");
+            Console.WriteLine($"Processando análise de pele para UserId: {message.PatientId}, SkinType: {message.SkinType}, SkinConcerns: {message.SkinConcerns}");
 
         try
         {

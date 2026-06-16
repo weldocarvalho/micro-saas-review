@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using DermePlan.Worker.Domain.Services;
 
-namespace DermePlan.Worker.Infra.Services;
+namespace DermePlan.Worker.Infrastructure.Services;
 
 public class MockSkinAnalysisService : ISkinAnalysisService
 {

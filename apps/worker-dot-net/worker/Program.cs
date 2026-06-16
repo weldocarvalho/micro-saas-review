@@ -5,8 +5,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using DermePlan.Worker.Domain.Services;
-using DermePlan.Worker.Infra.Services;
 using DermePlan.Worker.Application.Consumers;
+using DermePlan.Worker.Infrastructure;
 
 var builder = Host.CreateDefaultBuilder(args)
     .UseSerilog((context, configuration) =>
@@ -27,18 +27,18 @@ var builder = Host.CreateDefaultBuilder(args)
     })
     .ConfigureServices((context, services) =>
     {
-        var isDevelopment = context.HostingEnvironment.IsDevelopment();
+        services.AddInfrastructure(context.Configuration);
 
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<SkinAnalyseConsumer>();
+            x.AddConsumer<SkinAnalysisConsumer>();
 
             x.UsingRabbitMq((context, cfg) =>
             {
                 var logger = context.GetRequiredService<ILogger<Program>>();
                 var environment = context.GetRequiredService<IHostEnvironment>();
 
-                logger.LogInformation("IsDevelopment = {IsDevelopment}; Environment = {EnvironmentName}", isDevelopment, environment.EnvironmentName);
+                logger.LogInformation("Environment = {EnvironmentName}", environment.EnvironmentName);
                 logger.LogDebug("UsingRabbitMq context type: {ContextType}", context.GetType().FullName);
 
                 // Se a variável de ambiente existir (ex: em produção/Docker), usa ela.
@@ -70,15 +70,7 @@ var builder = Host.CreateDefaultBuilder(args)
             });
         });
 
-
-        // Register services
-        services.AddScoped<IImageProcessorService, MockImageProcessorService>();
-        services.AddScoped<ISkinAnalysisService, MockSkinAnalysisService>();
-        services.AddScoped<IAnalysisRepository, MockAnalysisRepository>();
-
-        // Health checks
         services.AddHealthChecks();
-
         services.AddHostedService<WorkerService>();
     });
 

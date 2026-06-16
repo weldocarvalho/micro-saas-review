@@ -1,6 +1,6 @@
 # ServiceWorker Service (.NET 9)
 
-Background Worker do **DermePlan Micro-SaaS** - Serviço responsável por processamento pesado de análises de pele.
+Background Worker do **ServiceWorker Micro-SaaS** - Serviço responsável por processamento pesado de análises de pele.
 
 ## 🏗️ Arquitetura
 
@@ -48,7 +48,7 @@ docker-compose up -d
 
 Isso inicia:
 - **RabbitMQ**: `http://localhost:15672` (guest/guest)
-- **PostgreSQL**: localhost:5432 (derme_user/derme_password)
+- **PostgreSQL**: localhost:5432 (service_worker_user/service_worker_password)
 
 ### 3. Build & Run
 ```bash
@@ -126,4 +126,4 @@ Automático - usa mocks + RabbitMQ local
 
 ## 📞 Contato
 
-Desenvolvido como parte do **DermePlan Micro-SaaS** para aprender tecnologias de alta demanda.
+Desenvolvido como parte do **ServiceWorker Micro-SaaS** para aprender tecnologias de alta demanda.

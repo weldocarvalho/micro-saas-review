@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# DermePlan Worker - Quick Setup Script
+# Service Worker - Quick Setup Script
 
 set -e
 
-echo "🚀 DermePlan Worker - Setup Rápido"
+echo "🚀 Service Worker - Setup Rápido"
 echo "=================================="
 
 # Cores para output

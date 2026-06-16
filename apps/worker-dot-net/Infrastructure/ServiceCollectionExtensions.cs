@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
     {
         var connectionString = GetConnectionString(configuration);
 
-        services.AddDbContext<DermePlanDbContext>(options =>
+        services.AddDbContext<ServiceWorkerDbContext>(options =>
             options.UseNpgsql(connectionString));
 
         services.AddScoped<IAnalysisRepository, EfAnalysisRepository>();

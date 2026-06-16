@@ -4,9 +4,9 @@ using ServiceWorker.Infrastructure.PersistancyEntities;
 
 namespace ServiceWorker.Infrastructure.Data;
 
-public class DermePlanDbContext : DbContext
+public class ServiceWorkerDbContext : DbContext
 {
-    public DermePlanDbContext(DbContextOptions<DermePlanDbContext> options) : base(options) { }
+    public ServiceWorkerDbContext(DbContextOptions<ServiceWorkerDbContext> options) : base(options) { }
 
     public DbSet<TreatmentSchedule> Schedules => Set<TreatmentSchedule>();
     public DbSet<ScheduleItem> ScheduleItems => Set<ScheduleItem>();

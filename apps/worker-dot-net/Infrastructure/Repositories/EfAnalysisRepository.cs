@@ -7,9 +7,9 @@ namespace ServiceWorker.Infrastructure.Repositories;
 
 public class EfAnalysisRepository : IAnalysisRepository
 {
-    private readonly DermePlanDbContext _dbContext;
+    private readonly ServiceWorkerDbContext _dbContext;
 
-    public EfAnalysisRepository(DermePlanDbContext dbContext)
+    public EfAnalysisRepository(ServiceWorkerDbContext dbContext)
     {
         _dbContext = dbContext;
     }

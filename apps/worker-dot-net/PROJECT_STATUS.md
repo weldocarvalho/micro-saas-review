@@ -29,7 +29,7 @@
 ✅ Domain/Services/IAnalysisRepository.cs
 ✅ Domain/Services/IImageProcessorService.cs
 ✅ Domain/Services/ISkinAnalysisService.cs
-✅ Infrastructure/Data/DermePlanDbContext.cs
+✅ Infrastructure/Data/ServiceWorkerDbContext.cs
 ✅ Infrastructure/PersistancyEntities/SkinAnalysisPersistancyEntity.cs
 ✅ Infrastructure/Repositories/EfAnalysisRepository.cs
 ✅ Infrastructure/ServiceCollectionExtensions.cs
@@ -96,7 +96,7 @@ dotnet run
 
 ✅ Infrastructure/
    ├── ServiceWorker.Infrastructure.csproj (RENAMED from infrastructure.csproj)
-   ├── Data/DermePlanDbContext.cs (UPDATED)
+   ├── Data/ServiceWorkerDbContext.cs (UPDATED)
    ├── PersistancyEntities/SkinAnalysisPersistancyEntity.cs (UPDATED)
    ├── Repositories/EfAnalysisRepository.cs (UPDATED)
    ├── ServiceCollectionExtensions.cs (UPDATED)

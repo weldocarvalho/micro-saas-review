@@ -9,33 +9,38 @@ export class SkinWizardPublisher implements OnModuleInit, OnModuleDestroy {
 
   // OnModuleInit roda automaticamente quando o NestJS liga
   async onModuleInit() {
-    // Conecta no seu RabbitMQ local
-    this.connection = amqp.connect(['amqp://localhost:5672']);
 
-    this.channelWrapper = this.connection.createChannel({
-      json: true,
-      setup: (channel: any) => {
-        // O MassTransit em C# cria Exchanges do tipo 'fanout' com o nome exato do contrato/evento
-        return channel.assertExchange('SkinWizardSubmittedEvent', 'fanout', { durable: true });
-      },
-    });
-  }
+  this.connection = amqp.connect(['amqp://localhost:5672']);
+
+  this.channelWrapper = this.connection.createChannel({
+    json: true,
+    setup: (channel: any) => {
+      // AJUSTE AQUI: Nome completo da exchange esperada pelo MassTransit
+      return channel.assertExchange(
+        'DermePlan.Worker.Application.Models:SkinWizardSubmittedEvent', 
+        'fanout', 
+        { durable: true }
+      );
+    },
+  });
+}
 
   async publishSubmission(data: SkinWizardSubmittedEvent): Promise<void> {
-    const envelope: MassTransitEnvelope<SkinWizardSubmittedEvent> = {
-      message: data,
-      // Altere o namespace abaixo ("MeuSaaS.Contratos") para bater EXATAMENTE com o Namespace do seu record/class no C#
-      messageType: ['urn:message:MeuSaaS.Contratos:SkinWizardSubmittedEvent'],
-    };
+    
+  const envelope: MassTransitEnvelope<SkinWizardSubmittedEvent> = {
+    message: data,
+    messageType: ['urn:message:DermePlan.Worker.Application.Models:SkinWizardSubmittedEvent'],
+  };
 
-    // Publica na Exchange do RabbitMQ de forma assíncrona
-    await this.channelWrapper.publish(
-      'SkinWizardSubmittedEvent',
-      '', // Sem routing key (Fanout ignora isso)
-      envelope,
-      { contentType: 'application/vnd.masstransit+json' } // Formato obrigatório do MassTransit
-    );
-  }
+  // AJUSTE AQUI: Publica na Exchange correta com o prefixo do namespace
+  await this.channelWrapper.publish(
+    'DermePlan.Worker.Application.Models:SkinWizardSubmittedEvent',
+    '', // Sem routing key (Fanout ignora isso)
+    envelope,
+    { contentType: 'application/vnd.masstransit+json' } 
+  );
+}
+
 
   // Fecha as conexões de forma segura se o NestJS desligar (Graceful Shutdown)
   async onModuleDestroy() {

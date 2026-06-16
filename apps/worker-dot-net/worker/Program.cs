@@ -30,34 +30,45 @@ var builder = Host.CreateDefaultBuilder(args)
         var isDevelopment = context.HostingEnvironment.IsDevelopment();
 
         services.AddMassTransit(x =>
-{
-    x.AddConsumer<AnalisePeleConsumer>();
-
-    x.UsingRabbitMq((context, cfg) =>
-    {
-        // Se a variável de ambiente existir (ex: em produção/Docker), usa ela. 
-        // Caso contrário, lê a seção do appsettings.json
-        var rabbitMqUri = Environment.GetEnvironmentVariable("RABBITMQ_URI");
-
-        if (!string.IsNullOrEmpty(rabbitMqUri))
         {
-            cfg.Host(new Uri(rabbitMqUri));
-        }
-        else
-        {
-            // Busca os dados estruturados do seu appsettings.json
-            var rabbitSettings = context.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>().GetSection("RabbitMQ");
+            x.AddConsumer<SkinAnalyseConsumer>();
 
-            cfg.Host(rabbitSettings["Host"] ?? "localhost", "/", h =>
+            x.UsingRabbitMq((context, cfg) =>
             {
-                h.Username(rabbitSettings["Username"] ?? "guest");
-                h.Password(rabbitSettings["Password"] ?? "guest");
-            });
-        }
+                var logger = context.GetRequiredService<ILogger<Program>>();
+                var environment = context.GetRequiredService<IHostEnvironment>();
 
-        cfg.ConfigureEndpoints(context);
-    });
-});
+                logger.LogInformation("IsDevelopment = {IsDevelopment}; Environment = {EnvironmentName}", isDevelopment, environment.EnvironmentName);
+                logger.LogDebug("UsingRabbitMq context type: {ContextType}", context.GetType().FullName);
+
+                // Se a variável de ambiente existir (ex: em produção/Docker), usa ela.
+                // Caso contrário, lê a seção do appsettings.json
+                var rabbitMqUri = Environment.GetEnvironmentVariable("RABBITMQ_URI");
+
+                if (!string.IsNullOrEmpty(rabbitMqUri))
+                {
+                    logger.LogInformation("Using RabbitMQ URI from environment variable: {RabbitMqUri}", rabbitMqUri);
+                    cfg.Host(new Uri(rabbitMqUri));
+                }
+                else
+                {
+                    // Busca os dados estruturados do seu appsettings.json
+                    var rabbitSettings = context.GetRequiredService<Microsoft.Extensions.Configuration.IConfiguration>().GetSection("RabbitMQ");
+                    var rabbitHost = rabbitSettings["Host"] ?? "localhost";
+                    var rabbitUsername = rabbitSettings["Username"] ?? "guest";
+
+                    logger.LogInformation("Using RabbitMQ settings from appsettings: Host={RabbitHost}, Username={RabbitUsername}", rabbitHost, rabbitUsername);
+
+                    cfg.Host(rabbitHost, "/", h =>
+                    {
+                        h.Username(rabbitUsername);
+                        h.Password(rabbitSettings["Password"] ?? "guest");
+                    });
+                }
+
+                cfg.ConfigureEndpoints(context);
+            });
+        });
 
 
         // Register services
@@ -87,7 +98,7 @@ public class WorkerService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("🚀 DermePlan Worker iniciado - aguardando mensagens...");
+        _logger.LogInformation("🚀 Vamos ver se está aqui... DermePlan Worker iniciado - aguardando mensagens...");
 
         await Task.Delay(Timeout.Infinite, stoppingToken);
     }

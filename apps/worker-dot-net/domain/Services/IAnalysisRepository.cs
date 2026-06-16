@@ -1,4 +1,4 @@
-namespace DermePlan.Worker.Domain.Services;
+namespace ServiceWorker.Domain.Services;
 
 public interface IAnalysisRepository
 {

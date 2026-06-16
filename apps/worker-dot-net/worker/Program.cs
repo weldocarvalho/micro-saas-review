@@ -4,9 +4,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using DermePlan.Worker.Domain.Services;
-using DermePlan.Worker.Application.Consumers;
-using DermePlan.Worker.Infrastructure;
+using ServiceWorker.Domain.Services;
+using ServiceWorker.Application.Consumers;
+using ServiceWorker.Infrastructure;
 
 var builder = Host.CreateDefaultBuilder(args)
     .UseSerilog((context, configuration) =>
@@ -90,7 +90,7 @@ public class WorkerService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("🚀 Vamos ver se está aqui... DermePlan Worker iniciado - aguardando mensagens...");
+        _logger.LogInformation("🚀 Vamos ver se está aqui... ServiceWorker iniciado - aguardando mensagens...");
 
         await Task.Delay(Timeout.Infinite, stoppingToken);
     }

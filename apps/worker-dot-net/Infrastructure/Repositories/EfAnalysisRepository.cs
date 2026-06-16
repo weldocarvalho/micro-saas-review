@@ -1,9 +1,9 @@
 using System.Text.Json;
-using DermePlan.Worker.Domain.Services;
-using DermePlan.Worker.Infrastructure.Data;
-using DermePlan.Worker.Infrastructure.PersistancyEntities;
+using ServiceWorker.Domain.Services;
+using ServiceWorker.Infrastructure.Data;
+using ServiceWorker.Infrastructure.PersistancyEntities;
 
-namespace DermePlan.Worker.Infrastructure.Repositories;
+namespace ServiceWorker.Infrastructure.Repositories;
 
 public class EfAnalysisRepository : IAnalysisRepository
 {

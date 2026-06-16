@@ -1,7 +1,6 @@
 <Solution>
-  <Project Path="Infrastructure/infrastructure.csproj" />
-  <Project Path="worker/worker.csproj" />
-  <Project Path="application/application.csproj" />
-  <Project Path="domain/domain.csproj" />
+  <Project Path="Infrastructure/ServiceWorker.Infrastructure.csproj" />
+  <Project Path="Worker/ServiceWorker.csproj" />
+  <Project Path="Application/ServiceWorker.Application.csproj" />
+  <Project Path="Domain/ServiceWorker.Domain.csproj" />
 </Solution>
-

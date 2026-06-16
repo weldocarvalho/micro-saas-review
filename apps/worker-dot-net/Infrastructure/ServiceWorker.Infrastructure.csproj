@@ -4,11 +4,11 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>DermePlan.Worker.Infrastructure</RootNamespace>
+    <RootNamespace>ServiceWorker.Infrastructure</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../Domain/domain.csproj" />
+    <ProjectReference Include="../Domain/ServiceWorker.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

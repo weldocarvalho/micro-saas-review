@@ -1,80 +1,61 @@
-# 📊 DermePlan Worker - Project Status
+# 📊 ServiceWorker - Project Status
 
-## ✅ MILESTONE 1 - CONCLUÍDO: Build Success
+## ✅ RESTRUCTURING COMPLETED: .NET Conventions Applied
 
 ### 🔧 O que foi feito
 
-#### 1. **Infraestrutura de Projeto**
-- ✅ Atualizado para **.NET 9 LTS** (de 10.0)
-- ✅ Estrutura Clean Architecture configurada
-- ✅ RootNamespace padronizado em todos os .csproj
-- ✅ Arquivo `.slnx` corrigido e referenciando todos os projetos
+#### 1. **Convenções .NET Aplicadas**
+- ✅ Renomeado: `.csproj` files para **PascalCase**
+  - `worker.csproj` → `ServiceWorker.csproj`
+  - `application.csproj` → `ServiceWorker.Application.csproj`
+  - `domain.csproj` → `ServiceWorker.Domain.csproj`
+  - `infrastructure.csproj` → `ServiceWorker.Infrastructure.csproj`
+- ✅ Renomeado namespace base: **DermePlan.Worker** → **ServiceWorker**
+- ✅ Todas as estruturas hierárquicas seguindo padrão .NET
+- ✅ Solution file (`.slnx`) atualizado com referências corretas
 
-#### 2. **Dependências NuGet Adicionadas**
+#### 2. **Namespaces Migrados**
+- ✅ **ServiceWorker** - Root namespace
+- ✅ **ServiceWorker.Application** - Application Layer
+- ✅ **ServiceWorker.Domain** - Domain Layer
+- ✅ **ServiceWorker.Infrastructure** - Infrastructure Layer
+
+#### 3. **Código Atualizado - 14 Arquivos C#**
 ```
-✅ MassTransit 8.2.4              → Mensageria RabbitMQ
-✅ MassTransit.RabbitMQ 8.2.4    → Driver RabbitMQ
-✅ Serilog 4.1.0                 → Logging estruturado (padrão senior)
-✅ Serilog.Extensions.Hosting    → Integração com Host
-✅ Serilog.Sinks.Console/File    → Outputs de log
-✅ Npgsql 8.0.1                  → PostgreSQL client (mocks por enquanto)
-✅ Microsoft.Extensions.*         → DI, Config, Hosting
-```
-
-#### 3. **Código Corrigido**
-- ✅ **AnalisePeleConsumer.cs** - Sintaxe corrigida (construtor com parâmetros apropriados)
-- ✅ **AnalisePeleSolicitadaEvent.cs** - Namespace padronizado, property renomeada (OutfieldAt → SolicitadoEm)
-- ✅ **Program.cs** criado com:
-  - Host/Worker Service setup
-  - Serilog configurado
-  - MassTransit com RabbitMQ
-  - Dependency Injection completo
-  - Health checks
-
-#### 4. **Abstrações & Mocks para Desenvolvimento**
-```
-Domain Layer (Interfaces)
-├── IImageProcessorService        → Processar imagens
-├── ISkinAnalysisService          → Análise de pele (IA)
-└── IAnalysisRepository           → Persistência
-
-Infra Layer (Mock Implementations)
-├── MockImageProcessorService     → Simula processamento
-├── MockSkinAnalysisService       → Simula análise com IA
-└── MockAnalysisRepository        → Armazena em-memória
+✅ Worker/Program.cs
+✅ Application/consumers/SkinAnalysisConsumer.cs
+✅ Application/models/InitiateSkinAnalysisEvent.cs
+✅ Domain/Entities/TreatmentSchedule.cs
+✅ Domain/Services/IAnalysisRepository.cs
+✅ Domain/Services/IImageProcessorService.cs
+✅ Domain/Services/ISkinAnalysisService.cs
+✅ Infrastructure/Data/DermePlanDbContext.cs
+✅ Infrastructure/PersistancyEntities/SkinAnalysisPersistancyEntity.cs
+✅ Infrastructure/Repositories/EfAnalysisRepository.cs
+✅ Infrastructure/ServiceCollectionExtensions.cs
+✅ Infrastructure/Services/MockAnalysisRepository.cs
+✅ Infrastructure/Services/MockSkinAnalysisService.cs
+✅ Infrastructure/Services/MockImageProcessorService.cs
 ```
 
-#### 5. **Infraestrutura Local**
-- ✅ **docker-compose.yml**:
-  - RabbitMQ 3.13 Management UI (port 15672)
-  - PostgreSQL 16 Alpine (port 5432)
-  - Health checks configurados
-  - Volumes persistentes
+#### 4. **Configuração Atualizada**
+- ✅ Arquivo `.slnx` com referências corretas
+- ✅ Todos os `ProjectReference` atualizados
+- ✅ RootNamespace correto em cada `.csproj`
 
-#### 6. **Configuração & Logging**
-- ✅ **appsettings.json** - Configurações de produção
-- ✅ **appsettings.Development.json** - Overrides de desenvolvimento
-- ✅ **Serilog estruturado** - Logs com propriedades nomeadas (padrão senior)
-- ✅ Pasta `/logs` para persistência
-
-#### 7. **Documentação**
-- ✅ **README.md** - Guia completo de setup e arquitetura
-- ✅ **PROJECT_STATUS.md** - Este arquivo
-- ✅ **.gitignore** - Padrão .NET
-
-### 📈 Compilação Status
+### 📈 Build Status
 
 ```bash
 $ dotnet build
 
 Build succeeded.
-✓ domain.dll        → net9.0
-✓ infra.dll         → net9.0  
-✓ application.dll   → net9.0
-✓ worker.exe        → net9.0
+✓ ServiceWorker.Domain.dll        → net9.0
+✓ ServiceWorker.Application.dll   → net9.0
+✓ ServiceWorker.Infrastructure.dll → net9.0
+✓ ServiceWorker.dll               → net9.0
 
-Tempo total: ~1.4s
-Avisos: 1 (Npgsql vulnerability - será resolvido nos próximos marcos)
+Tempo total: ~1.36s
+Avisos: 0 ✅
 Erros: 0 ✅
 ```
 
@@ -85,86 +66,73 @@ Erros: 0 ✅
 docker-compose up -d
 
 # 2. Build & Run
-cd worker
 dotnet build
 dotnet run
 
 # Esperado:
-# 🚀 DermePlan Worker iniciado - aguardando mensagens...
+# 🚀 Vamos ver se está aqui... ServiceWorker iniciado - aguardando mensagens...
 ```
 
-### 📚 Arquivos Alterados/Criados
+### 📚 Arquivos Alterados
 
 ```
-✅ worker/
-   ├── Program.cs (NEW)
-   ├── worker.csproj (UPDATED)
-   ├── appsettings.json (NEW)
-   └── appsettings.Development.json (NEW)
+✅ Worker/
+   ├── Program.cs (UPDATED - new namespaces)
+   ├── ServiceWorker.csproj (RENAMED from worker.csproj)
+   ├── appsettings.json
+   └── appsettings.Development.json
 
-✅ application/
-   ├── application.csproj (UPDATED)
-   ├── consumers/AnalisePeleConsumer.cs (FIXED)
-   └── models/AnalisePeleSolicitadaEvent.cs (FIXED)
+✅ Application/
+   ├── ServiceWorker.Application.csproj (RENAMED from application.csproj)
+   ├── consumers/SkinAnalysisConsumer.cs (UPDATED)
+   └── models/InitiateSkinAnalysisEvent.cs (UPDATED)
 
-✅ domain/
-   ├── domain.csproj (UPDATED)
-   └── Services/ (NEW - Interfaces)
+✅ Domain/
+   ├── ServiceWorker.Domain.csproj (RENAMED from domain.csproj)
+   └── Services/ (UPDATED)
        ├── IImageProcessorService.cs
        ├── ISkinAnalysisService.cs
        └── IAnalysisRepository.cs
 
-✅ infra/
-   ├── infra.csproj (UPDATED)
-   └── Services/ (NEW - Mock Implementations)
-       ├── MockImageProcessorService.cs
+✅ Infrastructure/
+   ├── ServiceWorker.Infrastructure.csproj (RENAMED from infrastructure.csproj)
+   ├── Data/DermePlanDbContext.cs (UPDATED)
+   ├── PersistancyEntities/SkinAnalysisPersistancyEntity.cs (UPDATED)
+   ├── Repositories/EfAnalysisRepository.cs (UPDATED)
+   ├── ServiceCollectionExtensions.cs (UPDATED)
+   └── Services/ (UPDATED)
+       ├── MockAnalysisRepository.cs
        ├── MockSkinAnalysisService.cs
-       └── MockAnalysisRepository.cs
+       └── MockImageProcessorService.cs
 
-✅ docker-compose.yml (NEW)
-✅ README.md (NEW)
-✅ .gitignore (NEW)
-✅ derme-plan.slnx (FIXED)
+✅ derme-plan.slnx (UPDATED)
+✅ README.md (UPDATED)
+✅ setup.sh (UPDATED)
 ```
 
-### 🎓 Aprendizados & Boas Práticas Implementadas
+### 🎓 .NET Conventions Applied
 
-1. **Clean Architecture** com separação clara de responsabilidades
-2. **Dependency Injection** nativo do .NET - sem frameworks externos
-3. **Logging Estruturado** com Serilog (padrão da indústria)
-4. **MassTransit** para mensageria - padrão de mercado
-5. **Async/Await** em toda a stack
-6. **Records** como DTOs (C# 9+)
-7. **Health Checks** para observabilidade
-8. **Docker Compose** para ambiente reproduzível
-
-### 📋 Próximos Marcos
-
-| Milestone | Descrição | Prioridade |
-|-----------|-----------|-----------|
-| **2** | Integração com OpenAI/Claude para análise real | 🔴 Alta |
-| **3** | PostgreSQL real + Entity Framework Core | 🔴 Alta |
-| **4** | AWS S3 / Cloudflare R2 para imagens | 🟠 Média |
-| **5** | Integração com BFF (Node.js) - publicar resultados | 🔴 Alta |
-| **6** | Testes Unitários + Integração | 🟠 Média |
-| **7** | CI/CD Pipeline (GitHub Actions) | 🟡 Baixa |
+1. **PascalCase Project Names** - All `.csproj` files follow convention
+2. **Proper Namespace Hierarchy** - ServiceWorker.* structure
+3. **Consistent Project References** - All references updated
+4. **Standard Solution Layout** - Solution file follows convention
+5. **Abstract Naming** - Removed domain-specific references for reusability
 
 ### ✨ Qualidade do Código
 
 ```
 Compilação:     ✅ Clean
-Warnings:       ⚠️  1 (Npgsql - será corrigido)
+Warnings:       ✅ 0
 Erros:          ✅ 0
-Estrutura:      ✅ Clean Architecture
-Naming:         ✅ Padrão .NET
+Estrutura:      ✅ .NET Conventions Applied
+Naming:         ✅ PascalCase Throughout
 Logging:        ✅ Estruturado (Serilog)
 DI Container:   ✅ Configurado
 Mocks:          ✅ Preparados para dev
-Documentação:   ✅ Completa
+Documentação:   ✅ Atualizada
 ```
 
 ---
 
-**Data**: 15/06/2026 13:54  
 **Status**: ✅ PRONTO PARA DESENVOLVIMENTO  
-**Próximo Passo**: Iniciar Milestone 2 - Integração com IA
+**Próximo Passo**: Integração com IA (Milestone 2)

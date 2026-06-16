@@ -1,4 +1,4 @@
-namespace DermePlan.Worker.Domain.Entities;
+namespace ServiceWorker.Domain.Entities;
 
 public class TreatmentSchedule
 {

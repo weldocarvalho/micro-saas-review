@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
-using DermePlan.Worker.Domain.Services;
+using ServiceWorker.Domain.Services;
 
-namespace DermePlan.Worker.Infrastructure.Services;
+namespace ServiceWorker.Infrastructure.Services;
 
 public class MockImageProcessorService : IImageProcessorService
 {

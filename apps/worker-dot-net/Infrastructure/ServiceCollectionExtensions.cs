@@ -2,12 +2,12 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using DermePlan.Worker.Domain.Services;
-using DermePlan.Worker.Infrastructure.Data;
-using DermePlan.Worker.Infrastructure.Repositories;
-using DermePlan.Worker.Infrastructure.Services;
+using ServiceWorker.Domain.Services;
+using ServiceWorker.Infrastructure.Data;
+using ServiceWorker.Infrastructure.Repositories;
+using ServiceWorker.Infrastructure.Services;
 
-namespace DermePlan.Worker.Infrastructure;
+namespace ServiceWorker.Infrastructure;
 
 public static class ServiceCollectionExtensions
 {

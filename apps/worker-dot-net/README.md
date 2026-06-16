@@ -1,36 +1,36 @@
-# DermePlan Worker Service (.NET 9)
+# ServiceWorker Service (.NET 9)
 
 Background Worker do **DermePlan Micro-SaaS** - Serviço responsável por processamento pesado de análises de pele.
 
 ## 🏗️ Arquitetura
 
 ```
-worker/              # Entry point (Program.cs, Host setup)
+Worker/              # Entry point (Program.cs, Host setup)
 ├── Program.cs
-├── worker.csproj
+├── ServiceWorker.csproj
 ├── appsettings.json
 └── logs/
 
-application/         # Casos de uso, Consumers (Application Layer)
+Application/         # Casos de uso, Consumers (Application Layer)
 ├── consumers/
-│   └── AnalisePeleConsumer.cs    # Consome eventos de análise de pele
+│   └── SkinAnalysisConsumer.cs    # Consome eventos de análise de pele
 ├── models/
-│   └── AnalisePeleSolicitadaEvent.cs
-└── application.csproj
+│   └── InitiateSkinAnalysisEvent.cs
+└── ServiceWorker.Application.csproj
 
-domain/             # Interfaces de serviços, DTOs (Domain Layer)
+Domain/             # Interfaces de serviços, DTOs (Domain Layer)
 ├── Services/
 │   ├── IImageProcessorService.cs      # Processar imagens
 │   ├── ISkinAnalysisService.cs        # Análise de pele (IA)
 │   └── IAnalysisRepository.cs         # Persistência
-└── domain.csproj
+└── ServiceWorker.Domain.csproj
 
-infra/              # Implementações Mock, Repositórios, Adapters (Infra Layer)
+Infrastructure/              # Implementações Mock, Repositórios, Adapters (Infra Layer)
 ├── Services/
 │   ├── MockImageProcessorService.cs
 │   ├── MockSkinAnalysisService.cs
 │   └── MockAnalysisRepository.cs
-└── infra.csproj
+└── ServiceWorker.Infrastructure.csproj
 
 docker-compose.yml  # RabbitMQ + PostgreSQL local
 ```
@@ -52,14 +52,13 @@ Isso inicia:
 
 ### 3. Build & Run
 ```bash
-cd worker
 dotnet build
 dotnet run
 ```
 
 Output esperado:
 ```
-🚀 DermePlan Worker iniciado - aguardando mensagens...
+🚀 Vamos ver se está aqui... ServiceWorker iniciado - aguardando mensagens...
 ```
 
 ## 📦 Dependências Principais
@@ -70,8 +69,8 @@ Output esperado:
 
 ## 🔄 Fluxo de Processamento
 
-1. BFF (Node.js) publica evento `AnalisePeleSolicitadaEvent` no RabbitMQ
-2. Worker consome via `AnalisePeleConsumer`
+1. BFF (Node.js) publica evento `InitiateSkinAnalysisEvent` no RabbitMQ
+2. Worker consome via `SkinAnalysisConsumer`
 3. Processa:
    - ✅ Redimensiona/normaliza imagem (MockImageProcessorService)
    - ✅ Executa análise de IA (MockSkinAnalysisService)

@@ -1,4 +1,4 @@
-namespace DermePlan.Worker.Application.Models;
+namespace ServiceWorker.Application.Models;
 
 public record InitiateSkinAnalysisEvent
 {

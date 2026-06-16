@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using DermePlan.Worker.Domain.Entities;
-using DermePlan.Worker.Infrastructure.PersistancyEntities;
+using ServiceWorker.Domain.Entities;
+using ServiceWorker.Infrastructure.PersistancyEntities;
 
-namespace DermePlan.Worker.Infrastructure.Data;
+namespace ServiceWorker.Infrastructure.Data;
 
 public class DermePlanDbContext : DbContext
 {

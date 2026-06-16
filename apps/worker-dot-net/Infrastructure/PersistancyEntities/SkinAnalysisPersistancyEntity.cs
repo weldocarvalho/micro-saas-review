@@ -1,4 +1,4 @@
-namespace DermePlan.Worker.Infrastructure.PersistancyEntities;
+namespace ServiceWorker.Infrastructure.PersistancyEntities;
 
 public class SkinAnalysisPersistancyEntity
 {

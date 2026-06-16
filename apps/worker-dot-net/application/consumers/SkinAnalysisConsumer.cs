@@ -1,8 +1,8 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using DermePlan.Worker.Application.Models;
+using ServiceWorker.Application.Models;
 
-namespace DermePlan.Worker.Application.Consumers;
+namespace ServiceWorker.Application.Consumers;
 
 public class SkinAnalysisConsumer : IConsumer<InitiateSkinAnalysisEvent>
 {

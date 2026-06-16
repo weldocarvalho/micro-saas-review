@@ -1,9 +1,9 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import amqp, { AmqpConnectionManager, ChannelWrapper } from 'amqp-connection-manager';
-import { MassTransitEnvelope, SkinWizardSubmittedEvent } from './skin-wizard.contracts';
+import { MassTransitEnvelope, InitiateSkinAnalysisEvent } from './skin-analysis.contracts';
 
 @Injectable()
-export class SkinWizardPublisher implements OnModuleInit, OnModuleDestroy {
+export class SkinAnalysisPublisher implements OnModuleInit, OnModuleDestroy {
   private connection!: AmqpConnectionManager;
   private channelWrapper!: ChannelWrapper;
 
@@ -17,7 +17,7 @@ export class SkinWizardPublisher implements OnModuleInit, OnModuleDestroy {
     setup: (channel: any) => {
       // AJUSTE AQUI: Nome completo da exchange esperada pelo MassTransit
       return channel.assertExchange(
-        'DermePlan.Worker.Application.Models:SkinWizardSubmittedEvent', 
+        'DermePlan.Worker.Application.Models:InitiateSkinAnalysisEvent', 
         'fanout', 
         { durable: true }
       );
@@ -25,16 +25,16 @@ export class SkinWizardPublisher implements OnModuleInit, OnModuleDestroy {
   });
 }
 
-  async publishSubmission(data: SkinWizardSubmittedEvent): Promise<void> {
+  async publishSubmission(data: InitiateSkinAnalysisEvent): Promise<void> {
     
-  const envelope: MassTransitEnvelope<SkinWizardSubmittedEvent> = {
+  const envelope: MassTransitEnvelope<InitiateSkinAnalysisEvent> = {
     message: data,
-    messageType: ['urn:message:DermePlan.Worker.Application.Models:SkinWizardSubmittedEvent'],
+    messageType: ['urn:message:DermePlan.Worker.Application.Models:InitiateSkinAnalysisEvent'],
   };
 
   // AJUSTE AQUI: Publica na Exchange correta com o prefixo do namespace
   await this.channelWrapper.publish(
-    'DermePlan.Worker.Application.Models:SkinWizardSubmittedEvent',
+    'DermePlan.Worker.Application.Models:InitiateSkinAnalysisEvent',
     '', // Sem routing key (Fanout ignora isso)
     envelope,
     { contentType: 'application/vnd.masstransit+json' } 

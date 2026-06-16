@@ -1,17 +1,19 @@
 // O contrato de dados exato que o seu C# espera receber
-// export class SkinWizardSubmittedEvent {
+// export class InitiateSkinAnalysisEvent {
 //   userId!: string;
 //   skinType!: string;      // ex: 'oleosa', 'seca', 'mista'
 //   celluliteStage!: string; // ex: 'grau-1', 'grau-2'
 //   habitsDescription! : string;
 // }
 
-export interface SkinWizardSubmittedEvent {
-  userId: string;        // Deve ser enviado um UUID válido (ex: 'uuidv4()')
+export interface InitiateSkinAnalysisEvent {
+  patientId: string;        // Deve ser enviado um UUID válido (ex: 'uuidv4()')
   skinType: string;      
   skinConcerns: string;
+  bodyArea: string;
   correlationId: string; // Deve ser enviado um UUID válido
-  solicitadoEm: string;  // Nova propriedade: Enviar em formato ISO (ex: new Date().toISOString())
+  requestedAt: string;  // Nova propriedade: Enviar em formato ISO (ex: new Date().toISOString())
+  photoUrls: string[]; // Nova propriedade: Array de URLs das fotos enviadas pelo usuário
 }
 
 

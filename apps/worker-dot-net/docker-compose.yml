@@ -1,9 +1,7 @@
-version: '3.9'
-
 services:
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
-    container_name: service-worker-rabbitmq
+    container_name: serviceworker-rabbitmq
     hostname: rabbitmq
     ports:
       - "5672:5672"      # AMQP port
@@ -20,31 +18,31 @@ services:
       retries: 5
       start_period: 40s
     networks:
-      - service-worker
+      - serviceworker
 
   postgres:
     image: postgres:16-alpine
-    container_name: service-worker-postgres
+    container_name: serviceworker-postgres
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: service_worker_user
-      POSTGRES_PASSWORD: service_worker_password
-      POSTGRES_DB: service_worker_db
+      POSTGRES_USER: serviceworker_user
+      POSTGRES_PASSWORD: serviceworker_password
+      POSTGRES_DB: serviceworker_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U service_worker_user"]
+      test: ["CMD-SHELL", "pg_isready -U serviceworker_user"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - service-worker
+      - serviceworker
 
 volumes:
   rabbitmq_data:
   postgres_data:
 
 networks:
-  derme-plan:
+  serviceworker:
     driver: bridge

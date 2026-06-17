@@ -1,15 +1,19 @@
 using MassTransit;
+using MediatR;
 using Microsoft.Extensions.Logging;
+using ServiceWorker.Application.Commands.Requests;
 using ServiceWorker.Application.Models;
 
 namespace ServiceWorker.Application.Consumers;
 
 public class SkinAnalysisConsumer : IConsumer<InitiateSkinAnalysisEvent>
 {
+    private readonly IMediator _mediator;
     private readonly ILogger<SkinAnalysisConsumer> _logger;
 
-    public SkinAnalysisConsumer(ILogger<SkinAnalysisConsumer> logger)
+    public SkinAnalysisConsumer(IMediator mediator, ILogger<SkinAnalysisConsumer> logger)
     {
+        _mediator = mediator;
         _logger = logger;
     }
 
@@ -18,23 +22,31 @@ public class SkinAnalysisConsumer : IConsumer<InitiateSkinAnalysisEvent>
         var message = context.Message;
 
         _logger.LogInformation(
-            "Recebido evento de análise de pele. CorrelationId: {CorrelationId}, UserId: {UserId}",
+            "Recebido evento de análise de pele. CorrelationId: {CorrelationId}, PatientId: {PatientId}",
             message.CorrelationId, message.PatientId);
-
-            Console.WriteLine($"Processando análise de pele para UserId: {message.PatientId}, SkinType: {message.SkinType}, SkinConcerns: {message.SkinConcerns}");
 
         try
         {
-            // TODO: Aqui entrará a chamada para a IA e Banco de Dados nos próximos marcos
-            await Task.Delay(500); // Simulando processamento rápido
+            var command = new AnalyzeSkinCommand
+            {
+                PatientId = message.PatientId,
+                SkinType = message.SkinType,
+                SkinConcerns = message.SkinConcerns,
+                BodyArea = message.BodyArea,
+                CorrelationId = message.CorrelationId,
+                RequestedAt = message.RequestedAt,
+                PhotoUrls = message.PhotoUrls
+            };
+
+            var result = await _mediator.Send(command, context.CancellationToken);
 
             _logger.LogInformation(
-                "Análise processada com sucesso. CorrelationId: {CorrelationId}",
-                message.CorrelationId);
+                "Análise processada com sucesso. CorrelationId: {CorrelationId}, AnalysisId: {AnalysisId}",
+                message.CorrelationId, result.AnalysisId);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, 
+            _logger.LogError(ex,
                 "Erro ao processar análise de pele. CorrelationId: {CorrelationId}",
                 message.CorrelationId);
             throw;

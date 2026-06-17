@@ -1,4 +1,5 @@
 using MassTransit;
+using MediatR;
 using Serilog;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ServiceWorker.Domain.Services;
 using ServiceWorker.Application.Consumers;
+using ServiceWorker.Application.Commands.Handlers;
 using ServiceWorker.Infrastructure;
 
 var builder = Host.CreateDefaultBuilder(args)
@@ -28,6 +30,8 @@ var builder = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services) =>
     {
         services.AddInfrastructure(context.Configuration);
+
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(AnalyzeSkinCommandHandler).Assembly));
 
         services.AddMassTransit(x =>
         {

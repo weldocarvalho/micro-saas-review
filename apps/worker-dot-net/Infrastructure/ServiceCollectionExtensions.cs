@@ -2,6 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using EFCore.NamingConventions;
 using ServiceWorker.Domain.Services;
 using ServiceWorker.Infrastructure.Data;
 using ServiceWorker.Infrastructure.Repositories;
@@ -16,7 +17,8 @@ public static class ServiceCollectionExtensions
         var connectionString = GetConnectionString(configuration);
 
         services.AddDbContext<ServiceWorkerDbContext>(options =>
-            options.UseNpgsql(connectionString));
+            options.UseNpgsql(connectionString)
+                   .UseSnakeCaseNamingConvention());
 
         services.AddScoped<IAnalysisRepository, EfAnalysisRepository>();
 

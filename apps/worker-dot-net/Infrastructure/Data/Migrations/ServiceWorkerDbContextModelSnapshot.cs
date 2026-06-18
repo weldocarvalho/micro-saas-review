@@ -26,76 +26,95 @@ namespace ServiceWorker.Infrastructure.Data.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("RecommendedProduct")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("recommended_product");
 
                     b.Property<int>("ScheduleDay")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("schedule_day");
 
                     b.Property<Guid?>("ScheduleId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("schedule_id");
 
                     b.Property<string>("UsageInstruction")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("usage_instruction");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_schedule_items");
 
-                    b.HasIndex("ScheduleId");
+                    b.HasIndex("ScheduleId")
+                        .HasDatabaseName("ix_schedule_items_schedule_id");
 
-                    b.ToTable("ScheduleItems");
+                    b.ToTable("schedule_items", (string)null);
                 });
 
             modelBuilder.Entity("ServiceWorker.Domain.Entities.TreatmentSchedule", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
 
                     b.Property<Guid>("PatientId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("patient_id");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("status");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("pk_schedules");
 
-                    b.ToTable("Schedules");
+                    b.ToTable("schedules", (string)null);
                 });
 
             modelBuilder.Entity("ServiceWorker.Infrastructure.PersistancyEntities.SkinAnalysisPersistancyEntity", b =>
                 {
                     b.Property<Guid>("AnalysisId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("analysis_id");
 
                     b.Property<DateTime>("AnalyzedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("analyzed_at");
 
                     b.Property<string>("ConditionsJson")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("conditions_json");
 
                     b.Property<float>("OverallHealthScore")
-                        .HasColumnType("real");
+                        .HasColumnType("real")
+                        .HasColumnName("overall_health_score");
 
                     b.Property<Guid>("PacienteId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("paciente_id");
 
                     b.Property<string>("RecommendationsJson")
                         .IsRequired()
-                        .HasColumnType("jsonb");
+                        .HasColumnType("jsonb")
+                        .HasColumnName("recommendations_json");
 
-                    b.HasKey("AnalysisId");
+                    b.HasKey("AnalysisId")
+                        .HasName("pk_skin_analyses");
 
-                    b.ToTable("SkinAnalyses");
+                    b.ToTable("skin_analyses", (string)null);
                 });
 
             modelBuilder.Entity("ServiceWorker.Domain.Entities.ScheduleItem", b =>
@@ -103,7 +122,8 @@ namespace ServiceWorker.Infrastructure.Data.Migrations
                     b.HasOne("ServiceWorker.Domain.Entities.TreatmentSchedule", null)
                         .WithMany("Items")
                         .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasConstraintName("fk_schedule_items_schedules_schedule_id");
                 });
 
             modelBuilder.Entity("ServiceWorker.Domain.Entities.TreatmentSchedule", b =>

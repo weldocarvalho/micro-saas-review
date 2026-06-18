@@ -127,3 +127,7 @@ Automático - usa mocks + RabbitMQ local
 ## 📞 Contato
 
 Desenvolvido como parte do **ServiceWorker Micro-SaaS** para aprender tecnologias de alta demanda.
+
+Útil: cd /Users/weldocarvalho/Documents/projects/micro-saas-review/apps/worker-dot-net/Worker
+dotnet ef migrations add InitialCreate --project ../Infrastructure --output-dir ../Infrastructure/Data/Migrations
+dotnet ef database update --project ../Infrastructure
